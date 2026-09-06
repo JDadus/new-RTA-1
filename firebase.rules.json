@@ -1,26 +1,36 @@
 {
   "rules": {
+    "admin": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid"
+      }
+    },
+
     "users": {
       "$uid": {
-        ".read": "auth != null && (auth.uid === $uid || root.child('users').child(auth.uid).child('role').val() === 'admin')",
-        ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || (auth.uid === $uid && !data.exists() && (newData.child('role').val() === 'student' || newData.child('role').val() === 'coach')))"
+        ".read": "auth != null && (auth.uid === $uid || root.child('admin').child(auth.uid).child('role').val() === 'admin')",
+        ".write": "auth != null && (root.child('admin').child(auth.uid).child('role').val() === 'admin' || (auth.uid === $uid && !data.exists() && (newData.child('role').val() === 'student' || newData.child('role').val() === 'coach')))"
       }
     },
+
     "students": {
       "$uid": {
-        ".read": "true",
-        ".write": "auth != null && (auth.uid === $uid || root.child('users').child(auth.uid).child('role').val() === 'admin')"
+        ".read": "auth != null",
+        ".write": "auth != null && (auth.uid === $uid || root.child('admin').child(auth.uid).child('role').val() === 'admin')"
       }
     },
+
     "coaches": {
       "$uid": {
         ".read": "auth != null",
-        ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || (auth.uid === $uid && !data.exists() && newData.child('uid').val() === auth.uid))"
+        ".write": "auth != null && (root.child('admin').child(auth.uid).child('role').val() === 'admin' || (auth.uid === $uid && !data.exists() && newData.child('uid').val() === auth.uid))"
       }
     },
+
     "settings": {
       ".read": true,
-      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'"
+      ".write": "auth != null && root.child('admin').child(auth.uid).child('role').val() === 'admin'"
     }
   }
 }
