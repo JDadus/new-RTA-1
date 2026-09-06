@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RTA • Student</title><link rel="stylesheet" href="css/style.css"></head>
+<body data-page="student">
+<div class="app"><aside class="sidebar"><div class="brand"><div class="brand-mark">RTA</div><div><span>RTA</span><small>STUDENT PORTAL</small></div></div><nav><button class="nav active">My Profile</button><button class="nav" id="cardNav">My ID Card</button></nav><button id="logout" class="btn ghost full">Logout</button></aside>
+<main class="main"><header class="topbar"><div><p class="eyebrow">STUDENT PORTAL</p><h1>My Profile</h1></div><span class="role-pill">STUDENT</span></header>
+<section id="studentProfile" class="grid two"></section>
+<section class="grid two">
+<div class="panel"><div class="panel-head"><h2>Update Belt</h2></div><form id="beltForm" class="form-card compact"><label>Belt<select id="belt"><option>White</option><option>Yellow</option><option>Green</option><option>Blue</option><option>Red</option><option>Black</option></select></label><label>Proof / Certificate<input id="beltFile" type="file" accept="image/*,.pdf"></label><button class="btn primary">Save Belt</button><p id="beltMsg" class="message"></p></form></div>
+<div class="panel"><div class="panel-head"><h2>Competition</h2></div><form id="compForm" class="form-card compact"><label>Competition name<input id="compName" required></label><label>Result<input id="compResult" placeholder="Gold / Silver / Bronze / Participation"></label><label>Certificate / Photo<input id="compFile" type="file" accept="image/*,.pdf"></label><button class="btn primary">Add Competition</button><p id="compMsg" class="message"></p></form></div>
+</section>
+<section class="panel"><div class="panel-head"><h2>My Competition Records</h2></div><div id="competitions"></div></section>
+</main></div>
+<script type="module" src="js/student.js"></script>
+</body></html>

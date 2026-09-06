@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RTA • Admin</title><link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="admin">
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="brand-mark">RTA</div><div><span>RTA</span><small>RAIGAD TAEKWONDO</small></div></div>
+  <nav>
+    <button data-view="overview" class="nav active">Overview</button>
+    <button data-view="students" class="nav">Students</button>
+    <button data-view="coaches" class="nav">Coaches</button>
+    <button data-view="academies" class="nav">Branches & Academies</button>
+  </nav>
+  <button id="logout" class="btn ghost full">Logout</button>
+</aside>
+<main class="main">
+<header class="topbar"><div><p class="eyebrow">ADMIN PORTAL</p><h1 id="pageTitle">Overview</h1></div><span class="role-pill">ADMIN</span></header>
+
+<section id="overview" class="view">
+  <div class="stats" id="stats"></div>
+  <div class="panel"><div class="panel-head"><h2>Recent students</h2></div><div id="recentStudents"></div></div>
+</section>
+
+<section id="students" class="view hidden">
+  <div class="panel">
+    <div class="panel-head"><h2>All Students</h2><input id="studentSearch" class="search" placeholder="Search name or ID"></div>
+    <div id="studentsTable"></div>
+  </div>
+</section>
+
+<section id="coaches" class="view hidden">
+  <div class="panel">
+    <div class="panel-head"><h2>Coaches</h2><button id="addCoach" class="btn primary">+ Add Coach</button></div>
+    <div id="coachesTable"></div>
+  </div>
+</section>
+
+<section id="academies" class="view hidden">
+  <div class="grid two">
+    <div class="panel"><div class="panel-head"><h2>Branches</h2><button id="addBranch" class="btn primary">+ Branch</button></div><div id="branchesList"></div></div>
+    <div class="panel"><div class="panel-head"><h2>Academies</h2><button id="addAcademy" class="btn primary">+ Academy</button></div><div id="academiesList"></div></div>
+  </div>
+</section>
+</main></div>
+<div id="modal" class="modal hidden"></div>
+<script type="module" src="js/admin.js"></script>
+</body>
+</html>
