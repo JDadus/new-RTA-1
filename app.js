@@ -17,13 +17,42 @@ export async function getDB(){
 export async function saveStudent(s){await set(ref(db,`students/${s.uid||s.id}`),s)}
 export async function saveCoach(c){await set(ref(db,`coaches/${c.uid||c.id}`),c)}
 export async function saveDB(d){for(const s of d.students||[])await saveStudent(s);for(const c of d.coaches||[])await saveCoach(c);return d}
-export async function saveSettings(d){await set(ref(db,"settings"),{...(d.settings||{}),branches:d.branches||{},academies:d.academies||{}})}
-export async function getUserProfile(id){const s=await get(ref(db,`users/${id}`));return s.exists()?s.val():null}
+export async function saveSettings(d){
+  await set(ref(db,"settings"),
+            {...(d.settings||{}),
+                                branches:d.branches||{},
+                                academies:d.academies||{}})}
+export async function getUserProfile(id) {
+  // Check admin first
+  const adminSnap = await get(
+    ref(db, `admin/${id}`)
+  );
+  if (adminSnap.exists()) {
+    return {
+      uid: id,
+      ...adminSnap.val(),
+      role: "admin"
+    };
+  }
+  // Check normal user profile
+  const userSnap = await get(
+    ref(db, `users/${id}`)
+  );
+  if (userSnap.exists()) {
+    return userSnap.val();
+  }
+  return null;
+}
 export async function saveUserProfile(id,data){await update(ref(db,`users/${id}`),data)}
 export function getSession(){return auth.currentUser}
-export async function logout(){await signOut(auth);location.href="index.html"}
-export async function protect(role){return new Promise(resolve=>onAuthStateChanged(auth,async user=>{if(!user){location.href="index.html";return resolve(null)}const p=await getUserProfile(user.uid);if(role&&p?.role!==role){location.href=p?.role?`${p.role}.html`:"index.html";return resolve(null)}resolve({...user,...p})}))}
-export function nextStudentId(d){const y=new Date().getFullYear(),max=(d.students||[]).reduce((m,s)=>Math.max(m,Number((s.studentId||"").split("-").pop())||0),0);return`RTA-${y}-${String(max+1).padStart(4,"0")}`}
+export async function logout()
+{
+  await signOut(auth);
+                               location.href="index.html"}
+export async function protect(role){
+  return new Promise(resolve=>onAuthStateChanged(auth,async user=>{if(!user){location.href="index.html";return resolve(null)}const p=await getUserProfile(user.uid);if(role&&p?.role!==role){location.href=p?.role?`${p.role}.html`:"index.html";return resolve(null)}resolve({...user,...p})}))}
+export function nextStudentId(d){
+  const y=new Date().getFullYear(),max=(d.students||[]).reduce((m,s)=>Math.max(m,Number((s.studentId||"").split("-").pop())||0),0);return`RTA-${y}-${String(max+1).padStart(4,"0")}`}
 export function esc(v=""){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
 export function initials(n=""){return n.split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join("").toUpperCase()}
 export async function uploadFile(file,path){if(!file)return"";const r=storageRef(storage,path);await uploadBytes(r,file);return await getDownloadURL(r)}
